@@ -6,7 +6,7 @@ public class SatUI extends JPanel {
 
     }
 
-    public static void displayError(String errorString) {
-
+    public void displayError(String errorMsg) {
+        // called by self or SatDB. displays error in GUI
     }
 }
