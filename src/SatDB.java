@@ -47,6 +47,17 @@ public class SatDB extends Application {
     // THE FOLLOWING FUNCTIONS are called by SatUI, allow use of Database functionality
 
 
+    // Performs SQL statement of the form "UPDATE ..."
+    // returns TRUE if successful, otherwise returns FALSE and calls displayError() with error message.
+    public boolean performUpdate(String sqlString) {
+        return dba.performUpdate(sqlString);
+    }
+
+    // Performs SQL queries of the form "SELECT ..."
+    // returns JTable with results. If error occurs, returns empty table, and calls displayError() with error message.
+    public JTable performQuery(String sqlString) {
+        return dba.performQuery(sqlString);
+    }
     // Attempts to login into database with given username/password.
     // Returns TRUE if successful, FALSE otherwise
     public boolean login(String username, String password) {

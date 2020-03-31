@@ -57,14 +57,15 @@ public class DatabaseAccess {
 
 
     // Performs SQL 'UPDATE' statements
-    public void performUpdate(String sqlString) {
-        // TODO
+    public boolean performUpdate(String sqlString) {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(sqlString);
+            return true;
         } catch (SQLException e) {
             satDB.displayError(e.getMessage());
+            return false;
         } finally {
             try {
                 if (stmt != null) {
@@ -78,9 +79,6 @@ public class DatabaseAccess {
 
     // Performs SQL queries
     public JTable performQuery(String sqlString) {
-        // TODO
-        // accepts sqlString (name of txt file), reads query from disk, issues query to database, returns JTable with results
-        // if error, calls SatUI.displayError() with error message, returns single cell JTable, empty
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
@@ -117,8 +115,6 @@ public class DatabaseAccess {
                 }
                 tableData.add(v);
             }
-
-
             return new DefaultTableModel();
         } catch (SQLException e) {
             satDB.displayError(e.getMessage());
