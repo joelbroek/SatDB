@@ -13,18 +13,20 @@ public class SatDB extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            dba = new DatabaseAccess();
-            initialiseDatabase();
+            dba = new DatabaseAccess(this);
+//            initialiseDatabase();
             createAndShowGUI();
-        } catch (Error e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
-    private void initialiseDatabase() {
-        //
-        dba.initialise();
-    }
+//    private void initialiseDatabase() throws Exception {
+//        //
+//        dba.initialise();
+//    }
+
+
     private static void createAndShowGUI() {
         //
         JFrame f = new JFrame("A JFrame");
@@ -42,8 +44,23 @@ public class SatDB extends Application {
         satUI.displayError(errorMsg);
     }
 
+    // THE FOLLOWING FUNCTIONS are called by SatUI, allow use of Database functionality
+
+
+    // Attempts to login into database with given username/password.
+    // Returns TRUE if successful, FALSE otherwise
+    public boolean login(String username, String password) {
+        return dba.login(username, password);
+    }
+
+
+    // Terminates database connection.
     public void disconnectDatabase() {
         // called by SatUI, close database connection
-        dba.disconnect();
+        try {
+            dba.disconnect();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

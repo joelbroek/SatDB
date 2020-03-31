@@ -2,8 +2,8 @@ import javax.swing.*;
 
 public class SatUI extends JPanel {
 
+    // Create and show GUI
     public SatUI() {
-
     }
 
     public void displayError(String errorMsg) {
