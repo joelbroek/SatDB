@@ -1,0 +1,15 @@
+drop table gps_sat;
+drop table comms_sat;
+drop table geostationary_sat;
+drop table launch_request;
+drop table user_tracks_constellation;
+drop table ground_station_recieves_data;
+drop table satellite_sends_data;
+drop table sat_user;
+drop table user_type;
+drop table ground_station;
+drop table location;
+drop table satellite;
+drop table orbit;
+drop table constellation;
+drop table space_agency;
