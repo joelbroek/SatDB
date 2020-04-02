@@ -66,10 +66,10 @@ public class SatDB extends Application {
 
 
     // Terminates database connection.
-    public void disconnectDatabase() {
+    public void disconnectAndResetDatabase() {
         // called by SatUI, close database connection
         try {
-            dba.disconnect();
+            dba.disconnectAndResetDatabase();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
