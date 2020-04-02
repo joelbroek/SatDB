@@ -7,8 +7,8 @@ import java.util.Vector;
 
 
 public class DatabaseAccess {
-    SatDB satDB;
-    Connection conn = null;
+    private SatDB satDB;
+    private Connection conn = null;
     private int launchRequestNumber;
 
     public DatabaseAccess(SatDB caller) {
@@ -47,7 +47,7 @@ public class DatabaseAccess {
             reset();
             disconnect();
         } catch (Exception e) {
-            ;
+            System.out.println(e.getMessage());
         }
     }
 
@@ -55,13 +55,12 @@ public class DatabaseAccess {
         try {
             executeScript("SatDB_delete_database.sql");
         } catch (Exception e) {
-            ;
+            System.out.println(e.getMessage());
         }
     }
 
 
     private void disconnect() throws Exception{
-        // TODO
         try {
             if (conn != null) {
                 conn.close();
@@ -72,6 +71,8 @@ public class DatabaseAccess {
         }
     }
 
+
+    // executes a .sql script file. Assumes statements are semicolon-separated
     private void executeScript(String filePath) throws Exception {
         StringBuffer buff = new StringBuffer();
 
@@ -96,7 +97,7 @@ public class DatabaseAccess {
 
 
 
-    // Performs SQL 'UPDATE' statemxents
+    // Performs SQL 'UPDATE' statements
     public boolean performUpdate(String sqlString) {
         Statement stmt = null;
         try {
@@ -174,17 +175,17 @@ public class DatabaseAccess {
     }
 
 
-        public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
-        int launchID = launchRequestNumber;
-        launchRequestNumber++;
-        return performQuery("INSERT INTO LaunchRequest VALUES "
-                + launchID
-                +", false, "
-                + launchSystem
-                + ", " + satID
-                + agencyID + ", "
-                + date
-                );
+    public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
+    int launchID = launchRequestNumber;
+    launchRequestNumber++;
+    return performQuery("INSERT INTO LaunchRequest VALUES "
+            + launchID
+            +", false, "
+            + launchSystem
+            + ", " + satID
+            + agencyID + ", "
+            + date
+            );
     }
     // Deletes satellite with given ID, then retrieves all Satellites
     public JTable deleteSatellite(int satelliteID) {
