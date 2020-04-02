@@ -1,3 +1,4 @@
+package Model.Entities;
 public class UserType{
   private String user_type;
   private Integer clearance;

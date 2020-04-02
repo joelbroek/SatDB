@@ -1,30 +1,25 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.Vector;
 
 
 public class DatabaseAccess {
-    SatDB satDB = null;
+    SatDB satDB;
     Connection conn = null;
     private int launchRequestNumber;
 
     public DatabaseAccess(SatDB caller) {
-        // TODO - constructor
+        launchRequestNumber = 20;
         satDB = caller;
 
     }
 
-    // outdated
     public void initialise() throws Exception {
-        // TODO - connects to database
         try {
-            launchRequestNumber = 20;
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            // is this the right URL?
-//            conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu");
-
+            executeScript("SatDB_create_database.sql");
         } catch (Exception e) {
             System.out.println("Error occurred at initialise");
             throw e;
@@ -78,9 +73,22 @@ public class DatabaseAccess {
     }
 
     private void executeScript(String filePath) throws Exception {
-        Reader reader = null;
+        StringBuffer buff = new StringBuffer();
+
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            FileReader reader = new FileReader(filePath);
+            BufferedReader buffReader = new BufferedReader(reader);
+            String str = "";
+            while ((str = buffReader.readLine()) != null) {
+                buff.append(str);
+            }
+
+            String[] instructions = buff.toString().split(";");
+            Statement stmt = conn.createStatement();
+            int numInstrs = instructions.length;
+            for (String instr : instructions) {
+                stmt.executeUpdate(instr);
+            }
         } catch (Exception e) {
             throw e;
         }
@@ -217,4 +225,6 @@ public class DatabaseAccess {
     public JTable nestedAggregationQuery() {
         return performQuery("SELECT Avg(count (isApproved) FROM LaunchRequest Group by sat_id");
     }
+
+
 }

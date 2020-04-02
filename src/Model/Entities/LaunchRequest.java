@@ -2,10 +2,10 @@ public class LaunchRequest {
   private Integer sat_id;
   private Integer agency_id;
   private boolean is_approved;
-  private Date scheduled_date;
+  private String scheduled_date;
   private String launch_system;
 
-  public LaunchRequest(Inter sat_id, Integer agency_id, boolean is_approved, Date scheduled_date, String launch_system){
+  public LaunchRequest(Integer sat_id, Integer agency_id, boolean is_approved, String scheduled_date, String launch_system){
     this.sat_id = sat_id;
     this.agency_id = agency_id;
     this.is_approved = is_approved;
@@ -36,7 +36,7 @@ public class LaunchRequest {
     this.is_approved = is_approved;
   }
 
-  public Date getLRScheduledDate(){
+  public String getLRScheduledDate(){
     return scheduled_date;
   }
 

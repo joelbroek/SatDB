@@ -14,18 +14,20 @@ public class SatDB extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             dba = new DatabaseAccess(this);
-//            initialiseDatabase();
+            initialiseDatabase();
             createAndShowGUI();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-//    private void initialiseDatabase() throws Exception {
-//        //
-//        dba.initialise();
-//    }
-
+    private void initialiseDatabase() {
+        try {
+            dba.initialise();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private static void createAndShowGUI() {
         //
