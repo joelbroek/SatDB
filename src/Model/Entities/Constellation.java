@@ -1,8 +1,9 @@
+package Model.Entities;
 public class Constellation{
   private String name;
   private String purpose;
 
-  public Constellation(String name. String purpose){
+  public Constellation(String name, String purpose){
     this.name = name;
     this.purpose = purpose;
   }

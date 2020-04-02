@@ -86,7 +86,7 @@ public class DatabaseAccess {
         }
     }
 
-    
+
 
     // Performs SQL 'UPDATE' statemxents
     public boolean performUpdate(String sqlString) {
@@ -166,7 +166,7 @@ public class DatabaseAccess {
     }
 
 
-    public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
+        public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
         int launchID = launchRequestNumber;
         launchRequestNumber++;
         return performQuery("INSERT INTO LaunchRequest VALUES "

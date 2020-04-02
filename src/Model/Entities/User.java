@@ -1,10 +1,11 @@
+package Model.Entities;
 public class User{
 
   private String username;
   private String user_type;
   private String password;
 
-  public Customer(String username, String user_type, String password) {
+  public User(String username, String user_type, String password) {
     this.username = username;
     this.user_type = user_type;
     this.password = password;
@@ -18,7 +19,7 @@ public class User{
     this.username = username;
   }
 
-  public String getUser_type()m {
+  public String getUser_type() {
     return user_type;
   }
 

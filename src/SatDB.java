@@ -74,4 +74,30 @@ public class SatDB extends Application {
             System.out.println(e.getMessage());
         }
     }
-}
+
+    public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
+        return dba.insertLaunchRequest(launchSystem, satID, agencyID, date);
+    }
+    public JTable deleteSatellite(int satelliteID) {
+        return dba.deleteSatellite(satelliteID);
+    }
+    public JTable updateConstellation(String purpose, String name) {
+        return dba.updateConstellation(purpose, name);
+    }
+    public JTable selectSatellite(String orbitType) {
+        return dba.selectSatellite(orbitType);
+    }
+    public JTable projectFromOrbit(String field) {
+        return dba.projectFromOrbit(field);
+    }
+    public JTable joinQuery() {
+        return dba.joinQuery();
+    }
+    public JTable aggregationQuery() {
+        return dba.aggregationQuery();
+    }
+    public JTable nestedAggregationQuery() {
+        return dba.nestedAggregationQuery();
+    }
+
+    }

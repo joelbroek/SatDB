@@ -1,3 +1,4 @@
+package Model.Entities;
 public class GroundStation{
   private Float latitude;
   private Float longitude;
@@ -30,6 +31,6 @@ public Float getGSLongtitude(){
 }
 
 public void setGSLongtitude(Float longitude){
-  this.longitude = longitude
+  this.longitude = longitude;
 }
 }
