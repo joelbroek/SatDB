@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.Vector;
+import src.model;
 
 public class DatabaseAccess {
     SatDB satDB = null;
@@ -122,6 +123,50 @@ public class DatabaseAccess {
         }
 
     }
+
+
+    //queries for project
+    // return list of existing users
+    public ArrayList<String> queryUser(){
+      ArrayList<String> result = new ArrayList<String>();
+
+      try{
+            Statement stmt = connection.createStatement():
+            ResultSet rs = stmt.executeQuery("SELECT USER_USERNAME FROM USER");
+
+            while (rs.next()){
+              result.add(rs.getString("USER_USERNAME"));
+            }
+            rs.close();
+            stmt.close();
+          }
+          catch(SQLException e){
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+          }
+          return result;
+      }
+
+    //return a map of satellite and constellation
+
+    public HashMap<Integer,String> satelliteInfo(){
+      HashMap<Integer,String> result = new Hashmap<>();
+
+      try{
+          Statement stmt = connection.createStatement();
+          ResultSet rs = stmt.executeQuery("SELECT * FROM Satelltite");
+
+          while (rs.next()){
+            result.put(rs.getInt("id"), rs.getString("constellation"));
+          }
+
+          rs.close();
+          stmt.close();
+      }catch (SQLException e){
+        System.out.printIn(EXCEPTION_TAG + " " + e.getMessage());
+      }
+      return result;
+    }
+
 
 
 }
