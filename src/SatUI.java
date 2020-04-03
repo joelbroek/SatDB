@@ -1,11 +1,12 @@
 import javax.swing.*;
+
 import ui.*;
+
+import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.table.TableColumn;
 
 import java.awt.event.ActionEvent;
-import java.awt.Component;
-import java.awt.FlowLayout;
 
 public class SatUI extends JPanel {
 
@@ -37,43 +38,159 @@ public class SatUI extends JPanel {
         frame.add(aggregate);
         frame.add(nested);
         frame.add(division);
+        frame.add(result, BorderLayout.PAGE_END);
 
         frame.setLayout(new FlowLayout());
         frame.setVisible(true);
-
+        System.out.println("got here");
         // MainUI ui = new MainUI();
     }
 
     private JPanel DivisionPanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Division");
+        JButton button = new JButton("DIVISION");
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform insert
+            }
+        });
+        return panel;
     }
 
     private JPanel NestedPanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Nested Aggregation");
+        JButton button = new JButton("NESTED");
+        JTextField textField = new JTextField(20);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(textField);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform insert
+            }
+        });
+        return panel;
     }
 
     private JPanel AggPanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Aggregation");
+        JButton button = new JButton("AGGREGATION");
+        JTextField textField = new JTextField(20);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(textField);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform insert
+            }
+        });
+        return panel;
     }
 
     private JPanel JoinPanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Join");
+        JButton button = new JButton("JOIN");
+        JTextField textField = new JTextField(20);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(textField);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform insert
+            }
+        });
+        return panel;
     }
 
     private JPanel ProjectPanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Project");
+        JButton button = new JButton("PROJECTION");
+        JTextField textField = new JTextField(20);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(textField);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform projection
+            }
+        });
+        return panel;
     }
 
     private JPanel SelectPanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Select");
+        JButton button = new JButton("SELECT");
+        JTextField textField = new JTextField(20);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(textField);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform insert
+            }
+        });
+        return panel;
     }
 
     private JPanel UpdatePanel() {
-        return null;
+        JPanel panel = new JPanel();
+        JLabel filler = new JLabel("Update");
+        JTextField textField = new JTextField(20);
+        panel.add(textField);
+        JButton button = new JButton("UPDATE");
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        // panel.setLayout(new GridLayout(1, 0));
+        panel.add(filler);
+        panel.add(textField);
+        panel.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // try to perform insert
+            }
+        });
+        return panel;
     }
 
     private JPanel ResultPanel() {
         JPanel panel = new JPanel();
+        JLabel label = new JLabel("Results:");
+        JTable table = new JTable(5,5);
+        panel.add(label);
+        panel.add(table);
         return panel;
     }
 
@@ -81,7 +198,6 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel(text);
         JTextField textField = new JTextField(20);
-        panel.add(textField);
         JButton button = new JButton("INSERT");
         filler.setHorizontalAlignment(JLabel.CENTER);
         // panel.setLayout(new GridLayout(1, 0));
