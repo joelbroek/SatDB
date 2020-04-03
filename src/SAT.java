@@ -12,9 +12,9 @@ import LoginPage;
 import LoginPageDelegate;
 import DatabaseAccess;
 
-public class SAT extends Application implements LoginWindowDelegate {
+public class SAT extends Application implements LoginPageDelegate {
   private DatabaseAccess DBAccess;
-  private LoginPage loginpage = null;
+  private LoginPage LoginPage = null;
 
 
   public SAT() {
@@ -30,15 +30,15 @@ public class SAT extends Application implements LoginWindowDelegate {
 		boolean didConnect = dbHandler.login(username, password);
 
 		if (didConnect) {
-      loginWindow.dispose();
+      LoginPage.dispose();
 			controller.setHandler(dbHandler);
 			launch();
     }
     else{
-      loginWindow.handleLoginFailed();
+      LoginPage.handleLoginFailed();
 
-			if (loginWindow.hasReachedMaxLoginAttempts()) {
-				loginWindow.dispose();
+			if (LoginPage.hasReachedMaxLoginAttempts()) {
+				LoginPage.dispose();
 				System.out.println("You have exceeded your number of allowed attempts");
 				System.exit(-1);
 			}
