@@ -1,14 +1,11 @@
 import javax.swing.*;
-
-import ui.*;
-
 import java.awt.*;
-import java.awt.event.ActionListener;
-import javax.swing.table.TableColumn;
-
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SatUI extends JPanel {
+    JScrollPane resultsPane;
+    JTable resultsTable;
 
     // Create and show GUI
     public SatUI() {
@@ -27,7 +24,9 @@ public class SatUI extends JPanel {
         JPanel aggregate = AggPanel();
         JPanel nested = NestedPanel();
         JPanel division = DivisionPanel();
-        JPanel result = ResultPanel();
+        resultsTable = new JTable(5,5);
+//        JScrollPane result = new JScrollPane(resultsTable);
+        resultsPane = new JScrollPane(resultsTable);
 
         frame.add(insert);
         frame.add(delete);
@@ -38,7 +37,7 @@ public class SatUI extends JPanel {
         frame.add(aggregate);
         frame.add(nested);
         frame.add(division);
-        frame.add(result, BorderLayout.PAGE_END);
+        frame.add(resultsPane, BorderLayout.PAGE_END);
 
         frame.setLayout(new FlowLayout());
         frame.setVisible(true);
@@ -59,6 +58,8 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform insert
+                resultsTable = new JTable(12,12);
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;

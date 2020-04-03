@@ -4,8 +4,8 @@ import javafx.stage.Stage;
 import javax.swing.*;
 
 public class SatDB extends Application {
-    DatabaseAccess dba;
-    SatUI satUI;
+    private DatabaseAccess dba;
+    private SatUI satUI;
     public static void main(String[] args) {
         launch();
     }
@@ -14,10 +14,10 @@ public class SatDB extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             dba = new DatabaseAccess(this);
-            initialiseDatabase();
+
             createAndShowGUI();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -30,7 +30,6 @@ public class SatDB extends Application {
     }
 
     private static void createAndShowGUI() {
-        //
         JFrame f = new JFrame("A JFrame");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setSize(250, 250);
@@ -63,7 +62,12 @@ public class SatDB extends Application {
     // Attempts to login into database with given username/password.
     // Returns TRUE if successful, FALSE otherwise
     public boolean login(String username, String password) {
-        return dba.login(username, password);
+        if (dba.login(username, password)){
+            initialiseDatabase();
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

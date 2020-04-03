@@ -21,6 +21,7 @@ public class DatabaseAccess {
         try {
             executeScript("SatDB_create_database.sql");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.println("Error occurred at initialise");
             throw e;
         }
@@ -71,7 +72,6 @@ public class DatabaseAccess {
         }
     }
 
-
     // executes a .sql script file. Assumes statements are semicolon-separated
     private void executeScript(String filePath) throws Exception {
         StringBuffer buff = new StringBuffer();
@@ -94,8 +94,6 @@ public class DatabaseAccess {
             throw e;
         }
     }
-
-
 
     // Performs SQL 'UPDATE' statements
     public boolean performUpdate(String sqlString) {
