@@ -15,6 +15,12 @@ public class SatUI extends JPanel {
     JTextField insertText;
     JTextField insertText2;
     JTextField insertText3;
+    JTextField updateText;
+    JTextField updateText2;
+    JTextField selectText;
+    JTextField deleteText;
+    JTextField projectText;
+
     Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
    // Private Connection conn;
 
@@ -68,7 +74,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform insert
-                resultsTable = new JTable(12,12);
+                resultsTable = new JTable(12, 12);
                 resultsPane.setViewportView(resultsTable);
             }
         });
@@ -79,17 +85,15 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Nested Aggregation");
         JButton button = new JButton("NESTED");
-        JTextField textField = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                resultsTable = db.nestedAggregationQuery();
             }
         });
         return panel;
@@ -99,17 +103,15 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Aggregation");
         JButton button = new JButton("AGGREGATION");
-        JTextField textField = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                resultsTable = db.aggregationQuery();
             }
         });
         return panel;
@@ -119,17 +121,15 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Join");
         JButton button = new JButton("JOIN");
-        JTextField textField = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
         // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
-        panel.add(textField);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                resultsTable = db.joinQuery();
             }
         });
         return panel;
@@ -139,17 +139,18 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Project");
         JButton button = new JButton("PROJECTION");
-        JTextField textField = new JTextField(20);
+        projectText = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(projectText);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform projection
+                String field = projectText.getText();
+                resultsTable = db.projectFromOrbit(field);
             }
         });
         return panel;
@@ -159,17 +160,20 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Select");
         JButton button = new JButton("SELECT");
-        JTextField textField = new JTextField(20);
+        selectText = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(selectText);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                String orbitType = selectText.getText();
+
+                resultsTable = db.selectSatellite(orbitType);
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -178,19 +182,24 @@ public class SatUI extends JPanel {
     private JPanel UpdatePanel() {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Update");
-        JTextField textField = new JTextField(20);
-        panel.add(textField);
+        updateText = new JTextField(10);
+        updateText2 = new JTextField(10);
         JButton button = new JButton("UPDATE");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(updateText);
+        panel.add(updateText2);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                String purpose = updateText.getText();
+                String name = insertText2.getText();
+                resultsTable = db.updateConstellation(purpose, name);
 
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -233,9 +242,9 @@ public class SatUI extends JPanel {
             System.out.print("insert launch date");
             String ld = insertText2.getText();
 
-            JTable resultTable = db.insertLaunchRequest(launchSys, satId , agency, ld);
+            resultsTable = db.insertLaunchRequest(launchSys, satId , agency, ld);
 
-            resultsPane.setViewportView(resultTable);
+            resultsPane.setViewportView(resultsTable);
 
             // Commented out bc it was causing compile errors
 //            PreparedStatement ps;
@@ -270,28 +279,25 @@ public class SatUI extends JPanel {
         return panel;
     }
 
-    protected static JPanel DeletePanel() {
+    protected JPanel DeletePanel() {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Delete");
-        JTextField textField = new JTextField(20);
-        panel.add(textField);
+        deleteText = new JTextField(20);
         JButton button = new JButton("DELETE");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(deleteText);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform delete
+                int id = Integer.parseInt(deleteText.getText());
 
+                resultsTable = db.deleteSatellite(id);
             }
         });
         return panel;
     }
-
-
-
 }
