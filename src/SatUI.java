@@ -69,7 +69,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform insert
-                resultsTable = new JTable(12, 12);
+                resultsTable = db.divisionQuery();
                 resultsPane.setViewportView(resultsTable);
             }
         });

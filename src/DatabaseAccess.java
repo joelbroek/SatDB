@@ -227,7 +227,7 @@ public class DatabaseAccess {
             return performQuery("SELECT id FROM satellite");
         } else {
             satDB.displayError("Failed to delete satellite");
-            return new JTable(1,1);
+            return new JTable(1, 1);
         }
     }
 
@@ -261,5 +261,10 @@ public class DatabaseAccess {
         return performQuery("SELECT Avg(sum (is_approved)) AS AverageTotalApprovals FROM launch_request Group by sat_id");
     }
 
-
+    public JTable divisionQuery() {
+        return performQuery("SELECT a.name " +
+                "FROM space_agency a " +
+                "WHERE " +
+                "NOT EXISTS ( (SELECT a1.id FROM space_agency a1) MINUS (SELECT a2.id FROM space_agency a2, launch_request lr2 WHERE a1.id = lr2.agency AND lr1.is_approved = 0))");
     }
+}

@@ -106,5 +106,8 @@ public class SatDB{
     public JTable nestedAggregationQuery() {
         return dba.nestedAggregationQuery();
     }
+    public JTable divisionQuery() {
+        return dba.divisionQuery();
+    }
 
     }
