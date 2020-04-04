@@ -4,20 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SatUI extends JPanel {
-    JScrollPane resultsPane;
-    JTable resultsTable;
-    SatDB db;
-    JTextField insertText;
-    JTextField insertText2;
-    JTextField insertText3;
-    JTextField updateText;
-    JTextField updateText2;
-    JTextField selectText;
-    JTextField deleteText;
-    JTextField projectText;
+    private JScrollPane resultsPane;
+    private JTable resultsTable;
+    private SatDB db;
+    private JTextField insertText;
+    private JTextField insertText2;
+    private JTextField insertText3;
+    private JTextField updateText;
+    private JTextField updateText2;
+    private  JTextField selectText;
+    private  JTextField deleteText;
+    private  JTextField projectText;
 
     Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
-   // Private Connection conn;
 
     // Create and show GUI
     public SatUI(SatDB db) {
@@ -38,7 +37,6 @@ public class SatUI extends JPanel {
         JPanel nested = NestedPanel();
         JPanel division = DivisionPanel();
         resultsTable = new JTable(5,5);
-//        JScrollPane result = new JScrollPane(resultsTable);
         resultsPane = new JScrollPane(resultsTable);
 
         frame.add(insert);
@@ -61,7 +59,6 @@ public class SatUI extends JPanel {
         JLabel filler = new JLabel("Division");
         JButton button = new JButton("DIVISION");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
         panel.add(button);
 
@@ -119,7 +116,6 @@ public class SatUI extends JPanel {
         JLabel filler = new JLabel("Join");
         JButton button = new JButton("JOIN");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
         panel.add(button);
 
@@ -213,7 +209,6 @@ public class SatUI extends JPanel {
         insertText3 = new JTextField(10);
         JButton button = new JButton("INSERT");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
         panel.add(insertText);
         panel.add(insertText2);
