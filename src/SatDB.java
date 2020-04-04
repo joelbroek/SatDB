@@ -1,23 +1,23 @@
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 import javax.swing.*;
 
-public class SatDB extends Application {
+public class SatDB{
     private DatabaseAccess dba;
     private SatUI satUI;
     public static void main(String[] args) {
-        launch();
+        SatDB sdb = new SatDB();
+        sdb.start();
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+//    @Override
+    public void start() {
         try {
             dba = new DatabaseAccess(this);
 
             createAndShowGUI();
         } catch (Exception e) {
+            System.out.println("Error occurred on start");
             System.out.println(e.getMessage());
+//            exit();
         }
     }
 

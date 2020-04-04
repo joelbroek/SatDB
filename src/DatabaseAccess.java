@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.Vector;
 
 
+
 public class DatabaseAccess {
     private SatDB satDB;
     private Connection conn = null;
@@ -15,6 +16,22 @@ public class DatabaseAccess {
         launchRequestNumber = 20;
         satDB = caller;
 
+        // TODO - THIS IS TEMPORARY UNTIL LOGIN IS IMPLEMENTED
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            System.out.println("attempting to get connection");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu", "ora_jbroek", "a50121862");
+            System.out.println("connection established");
+            conn.setAutoCommit(false);
+            System.out.println("Connected to database");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            satDB.displayError(e.getMessage());
+        }
     }
 
     public void initialise() throws Exception {
@@ -27,6 +44,7 @@ public class DatabaseAccess {
         }
         disconnect();
     }
+
 
     public boolean login(String username, String password) {
         try {
