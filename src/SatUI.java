@@ -6,11 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
 
 public class SatUI extends JPanel {
     JScrollPane resultsPane;
     JTable resultsTable;
     Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
+    Private Connection conn;
 
     // Create and show GUI
     public SatUI() {
@@ -232,7 +234,7 @@ public class SatUI extends JPanel {
             model.addRow(columnNames);
 
             try{
-              ps = PreparedStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
+              ps = con.prepareStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
               ResultSet rs;
               rs = ps.executeQuery();
               while(rs.next()) {
@@ -275,6 +277,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform delete
+
             }
         });
         return panel;
