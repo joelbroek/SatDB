@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.*;
 import java.util.Vector;
-import Model;
 
 
 
@@ -37,13 +36,14 @@ public class DatabaseAccess {
 
     public void initialise() throws Exception {
         try {
+            executeScript("SatDB_delete_database.sql");
             executeScript("SatDB_create_database.sql");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Error occurred at initialise");
             throw e;
         }
-        disconnect();
+//        disconnect();
     }
 
 
@@ -94,6 +94,7 @@ public class DatabaseAccess {
     // executes a .sql script file. Assumes statements are semicolon-separated
     private void executeScript(String filePath) throws Exception {
         StringBuffer buff = new StringBuffer();
+        System.out.println("running script: " + filePath);
 
         try {
             FileReader reader = new FileReader(filePath);
@@ -107,6 +108,7 @@ public class DatabaseAccess {
             Statement stmt = conn.createStatement();
             int numInstrs = instructions.length;
             for (String instr : instructions) {
+//                System.out.println("UPDATE: " + instr);
                 stmt.executeUpdate(instr);
             }
         } catch (Exception e) {
@@ -118,7 +120,10 @@ public class DatabaseAccess {
     public boolean performUpdate(String sqlString) {
         Statement stmt = null;
         try {
+            System.out.println("UPDATE: " + sqlString);
+            System.out.println(conn.isClosed());
             stmt = conn.createStatement();
+            System.out.println("created statement");
             stmt.executeUpdate(sqlString);
             return true;
         } catch (SQLException e) {
@@ -142,6 +147,7 @@ public class DatabaseAccess {
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sqlString);
+            System.out.println("performed query: " + sqlString);
             return new JTable(formatResultSet(rs));
         } catch(SQLException e) {
             satDB.displayError(e.getMessage());
@@ -171,19 +177,22 @@ public class DatabaseAccess {
         try {
             ResultSetMetaData metaData = rs.getMetaData();
             int numCols = metaData.getColumnCount();
+            System.out.println("nCol: " + numCols);
             Vector<String> colNames = new Vector<>();
             Vector<Vector<Object>> tableData = new Vector<Vector<Object>>();
-            for (int i = 1; i < numCols; i++) {
+            for (int i = 1; i <= numCols; i++) {
+                System.out.println("colName: " + metaData.getColumnName(i));
                 colNames.add(metaData.getColumnName(i));
             }
+            System.out.println(colNames.toString());
             while (rs.next()) {
                 Vector<Object> v = new Vector<>();
-                for (int i = 1; i < numCols; i++) {
+                for (int i = 1; i <= numCols; i++) {
                     v.add(rs.getObject(i));
                 }
                 tableData.add(v);
             }
-            return new DefaultTableModel();
+            return new DefaultTableModel(tableData, colNames);
         } catch (SQLException e) {
             satDB.displayError(e.getMessage());
             return null;
@@ -193,24 +202,32 @@ public class DatabaseAccess {
 
 
     public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
-    int launchID = launchRequestNumber;
-    launchRequestNumber++;
-    return performQuery("INSERT INTO LaunchRequest VALUES "
-            + launchID
-            +", false, "
-            + launchSystem
-            + ", " + satID
-            + agencyID + ", "
-            + date
-            );
+        int launchID = launchRequestNumber;
+        launchRequestNumber++;
+        if (performUpdate("INSERT INTO launch_request(id, is_approved, launch_system, sat_id, agency_id, scheduled_date) VALUES ("
+                + launchID
+                + ", 0, '"
+                + launchSystem
+                + "', " + satID + ", '"
+                + agencyID + "', "
+                + date + ")"
+        )) {
+            return performQuery("SELECT id, is_approved, launch_system, sat_id, agency_id, scheduled_date FROM launch_request");
+        } else {
+            satDB.displayError("failed to insert launch request");
+            return new JTable(1,1);
+        }
     }
+
     // Deletes satellite with given ID, then retrieves all Satellites
     public JTable deleteSatellite(int satelliteID) {
-        if (performUpdate("DELETE FROM Satellite WHERE id = " + satelliteID)) {
-            return performQuery("SELECT id FROM Satellite");
+        System.out.println("UPDATE: DELETE FROM satellite(id, name, orbit_id, orbit_type, constellation) WHERE id = " + satelliteID);
+        if (performUpdate("DELETE FROM satellite WHERE id = " + satelliteID)) {
+            System.out.println("successfully deleted");
+            return performQuery("SELECT id FROM satellite");
         } else {
             satDB.displayError("Failed to delete satellite");
-            return new JTable();
+            return new JTable(1,1);
         }
     }
 

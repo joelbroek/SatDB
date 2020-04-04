@@ -12,7 +12,7 @@ public class SatDB{
     public void start() {
         try {
             dba = new DatabaseAccess(this);
-
+            initialiseDatabase();
             createAndShowGUI();
         } catch (Exception e) {
             System.out.println("Error occurred on start");
@@ -43,6 +43,7 @@ public class SatDB{
 
     public void displayError(String errorMsg) {
        // satUI.displayError(errorMsg);
+        System.out.println("Error Occurred:    " + errorMsg);
     }
 
     // THE FOLLOWING FUNCTIONS are called by SatUI, allow use of Database functionality
