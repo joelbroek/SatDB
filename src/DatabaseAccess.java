@@ -209,8 +209,8 @@ public class DatabaseAccess {
                 + ", 0, '"
                 + launchSystem
                 + "', " + satID + ", '"
-                + agencyID + "', "
-                + date + ")"
+                + agencyID + "', '"
+                + date + "')"
         )) {
             return performQuery("SELECT id, is_approved, launch_system, sat_id, agency_id, scheduled_date FROM launch_request");
         } else {
@@ -232,8 +232,8 @@ public class DatabaseAccess {
     }
 
     public JTable updateConstellation(String purpose, String name) {
-        if (performUpdate("UPDATE constellation SET purpose = " + purpose + " WHERE name = " + name)) {
-            return performQuery("SELECT name FROM constellation");
+        if (performUpdate("UPDATE constellation SET purpose = '" + purpose + "' WHERE name = '" + name + "'")) {
+            return performQuery("SELECT name, purpose FROM constellation");
         } else {
             satDB.displayError("Failed to update constellation");
             return new JTable();
@@ -241,16 +241,16 @@ public class DatabaseAccess {
     }
 
     public JTable selectSatellite(String orbitType) {
-        return performQuery("SELECT id FROM satellite WHERE orbit_type = " + orbitType);
+        return performQuery("SELECT id, name, constellation FROM satellite WHERE orbit_type = '" + orbitType + "'");
     }
 
     public JTable projectFromOrbit(String field) {
-        return performQuery("SELECT orbit_id, " + field + " FROM orbit");
+        return performQuery("SELECT id, " + field + " FROM orbit");
     }
 
     public JTable joinQuery() {
-        return performQuery("SELECT Satellite.id, Constellation.purpose FROM Satellite " +
-                "INNER JOIN Constellation ON Satellite.constellation = Constellation.name");
+        return performQuery("SELECT satellite.id, constellation.purpose FROM satellite " +
+                "INNER JOIN constellation ON satellite.constellation = constellation.name");
     }
 
     public JTable aggregationQuery() {
@@ -258,7 +258,7 @@ public class DatabaseAccess {
     }
 
     public JTable nestedAggregationQuery() {
-        return performQuery("SELECT Avg(count (isApproved) FROM LaunchRequest Group by sat_id");
+        return performQuery("SELECT Avg(sum (is_approved)) AS AverageTotalApprovals FROM launch_request Group by sat_id");
     }
 
 

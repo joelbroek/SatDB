@@ -89,6 +89,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 resultsTable = db.nestedAggregationQuery();
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -107,6 +108,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 resultsTable = db.aggregationQuery();
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -125,6 +127,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 resultsTable = db.joinQuery();
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -146,6 +149,7 @@ public class SatUI extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 String field = projectText.getText();
                 resultsTable = db.projectFromOrbit(field);
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -191,24 +195,16 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 String purpose = updateText.getText();
-                String name = insertText2.getText();
+                String name = updateText2.getText();
                 resultsTable = db.updateConstellation(purpose, name);
-
                 resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
     }
 
-    private JPanel ResultPanel() {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Results:");
-        JTable table = new JTable(5,5);
-        panel.add(label);
-        panel.add(table);
-        return panel;
-    }
 
+    // INSERT LAUNCH_REQUEST
     protected JPanel InsertPanel(String text) {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel(text);
@@ -242,6 +238,8 @@ public class SatUI extends JPanel {
         return panel;
     }
 
+
+    // DELETE SATELLITE
     protected JPanel DeletePanel() {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Delete");
