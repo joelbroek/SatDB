@@ -11,11 +11,16 @@ import java.sql.Connection;
 public class SatUI extends JPanel {
     JScrollPane resultsPane;
     JTable resultsTable;
+    SatDB db;
+    JTextField insertText;
+    JTextField insertText2;
+    JTextField insertText3;
     Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
-    Private Connection conn;
+   // Private Connection conn;
 
     // Create and show GUI
-    public SatUI() {
+    public SatUI(SatDB db) {
+        this.db = db;
         // Login login = new Login();
         // login.showFrame();
         JFrame frame = new JFrame("main ui");
@@ -48,8 +53,6 @@ public class SatUI extends JPanel {
 
         frame.setLayout(new FlowLayout());
         frame.setVisible(true);
-        System.out.println("got here");
-        // MainUI ui = new MainUI();
     }
 
     private JPanel DivisionPanel() {
@@ -187,9 +190,8 @@ public class SatUI extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
 
-
+            }
         });
         return panel;
     }
@@ -203,59 +205,66 @@ public class SatUI extends JPanel {
         return panel;
     }
 
-    protected static JPanel InsertPanel(String text) {
+    protected JPanel InsertPanel(String text) {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel(text);
-        JTextField textField = new JTextField(20);
+        insertText = new JTextField(10);
+        insertText2  = new JTextField(10);
+        insertText3 = new JTextField(10);
         JButton button = new JButton("INSERT");
         filler.setHorizontalAlignment(JLabel.CENTER);
         // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
-        panel.add(textField);
+        panel.add(insertText);
+        panel.add(insertText2);
+        panel.add(insertText3);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                // perform insert
             System.out.print("insert launchSystem");
-            String ls = textField.getText();
+            String launchSys = insertText.getText();
             System.out.print("insert satellite id");
-            String sd = parseInt(textField.getText());
+            int satId = Integer.parseInt(insertText2.getText());
             System.out.print("insert Agency ID");
-            String ad = parseInt(textField.getText());
+            String agency = "agency 1";
             System.out.print("insert launch date");
-            String ld = textField.getText();
+            String ld = insertText2.getText();
 
-            database.insertLaunchRequest(ls, sd,ad, ld);
+            JTable resultTable = db.insertLaunchRequest(launchSys, satId , agency, ld);
 
-            PreparedStatement ps;
-            DefaultTableModel model = new DefaultTableModel(0,6);
-            model.addRow(columnNames);
+            resultsPane.setViewportView(resultTable);
 
-            try{
-              ps = con.prepareStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
-              ResultSet rs;
-              rs = ps.executeQuery();
-              while(rs.next()) {
-                System.out.println ("Next result");
-                String id = rs.getString(1);
-                String is_approved = rs.getString(2);
-                String launch_system = rs.getString(3);
-                String sat_id = rs.getString(4);
-                String agency_id = rs.getString(5);
-                String scheduled_date = rs.getString(6);
-                model.addRow(new Object[]{rd, is_approved, launch_system, sat_id, agency_id, scheduled_date});
-              }
-              ps.close();
-            }
-            catch(SQLException ex)
-                    {
-                        System.out.println("Message: "+ex.getMessage());
-                    }
-                    resultsTable.setModel(model);
-
-            }
+            // Commented out bc it was causing compile errors
+//            PreparedStatement ps;
+//            DefaultTableModel model = new DefaultTableModel(0,6);
+//            model.addRow(columnNames);
+//
+//            try{
+//              ps = con.prepareStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
+//              ResultSet rs;
+//              rs = ps.executeQuery();
+//              while(rs.next()) {
+//                System.out.println ("Next result");
+//                String id = rs.getString(1);
+//                String is_approved = rs.getString(2);
+//                String launch_system = rs.getString(3);
+//                String sat_id = rs.getString(4);
+//                String agency_id = rs.getString(5);
+//                String scheduled_date = rs.getString(6);
+//                model.addRow(new Object[]{rd, is_approved, launch_system, sat_id, agency_id, scheduled_date});
+//              }
+//              ps.close();
+//            }
+//            catch(SQLException ex)
+//                    {
+//                        System.out.println("Message: "+ex.getMessage());
+//                    }
+//                    resultsTable.setModel(model);
+//
+           }
 
         });
         return panel;
