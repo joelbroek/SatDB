@@ -2,10 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
 
 public class SatUI extends JPanel {
     JScrollPane resultsPane;
     JTable resultsTable;
+    Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
 
     // Create and show GUI
     public SatUI() {
@@ -181,7 +186,8 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform insert
-            }
+
+
         });
         return panel;
     }
@@ -210,7 +216,45 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform insert
+            System.out.print("insert launchSystem");
+            String ls = textField.getText();
+            System.out.print("insert satellite id");
+            String sd = parseInt(textField.getText());
+            System.out.print("insert Agency ID");
+            String ad = parseInt(textField.getText());
+            System.out.print("insert launch date");
+            String ld = textField.getText();
+
+            database.insertLaunchRequest(ls, sd,ad, ld);
+
+            PreparedStatement ps;
+            DefaultTableModel model = new DefaultTableModel(0,6);
+            model.addRow(columnNames);
+
+            try{
+              ps = PreparedStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
+              ResultSet rs;
+              rs = ps.executeQuery();
+              while(rs.next()) {
+                System.out.println ("Next result");
+                String id = rs.getString(1);
+                String is_approved = rs.getString(2);
+                String launch_system = rs.getString(3);
+                String sat_id = rs.getString(4);
+                String agency_id = rs.getString(5);
+                String scheduled_date = rs.getString(6);
+                model.addRow(new Object[]{rd, is_approved, launch_system, sat_id, agency_id, scheduled_date});
+              }
+              ps.close();
             }
+            catch(SQLException ex)
+                    {
+                        System.out.println("Message: "+ex.getMessage());
+                    }
+                    resultsTable.setModel(model);
+
+            }
+
         });
         return panel;
     }
@@ -236,7 +280,6 @@ public class SatUI extends JPanel {
         return panel;
     }
 
-    public void displayError(String errorMsg) {
-        // called by self or SatDB. displays error in GUI
-    }
+
+
 }
