@@ -11,11 +11,22 @@ import java.sql.Connection;
 public class SatUI extends JPanel {
     JScrollPane resultsPane;
     JTable resultsTable;
+    SatDB db;
+    JTextField insertText;
+    JTextField insertText2;
+    JTextField insertText3;
+    JTextField updateText;
+    JTextField updateText2;
+    JTextField selectText;
+    JTextField deleteText;
+    JTextField projectText;
+
     Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
-    Private Connection conn;
+   // Private Connection conn;
 
     // Create and show GUI
-    public SatUI() {
+    public SatUI(SatDB db) {
+        this.db = db;
         // Login login = new Login();
         // login.showFrame();
         JFrame frame = new JFrame("main ui");
@@ -48,8 +59,6 @@ public class SatUI extends JPanel {
 
         frame.setLayout(new FlowLayout());
         frame.setVisible(true);
-        System.out.println("got here");
-        // MainUI ui = new MainUI();
     }
 
     private JPanel DivisionPanel() {
@@ -65,7 +74,7 @@ public class SatUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 // try to perform insert
-                resultsTable = new JTable(12,12);
+                resultsTable = new JTable(12, 12);
                 resultsPane.setViewportView(resultsTable);
             }
         });
@@ -76,17 +85,15 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Nested Aggregation");
         JButton button = new JButton("NESTED");
-        JTextField textField = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                resultsTable = db.nestedAggregationQuery();
             }
         });
         return panel;
@@ -96,17 +103,15 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Aggregation");
         JButton button = new JButton("AGGREGATION");
-        JTextField textField = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                resultsTable = db.aggregationQuery();
             }
         });
         return panel;
@@ -116,17 +121,15 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Join");
         JButton button = new JButton("JOIN");
-        JTextField textField = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
         // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
-        panel.add(textField);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                resultsTable = db.joinQuery();
             }
         });
         return panel;
@@ -136,17 +139,18 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Project");
         JButton button = new JButton("PROJECTION");
-        JTextField textField = new JTextField(20);
+        projectText = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(projectText);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform projection
+                String field = projectText.getText();
+                resultsTable = db.projectFromOrbit(field);
             }
         });
         return panel;
@@ -156,17 +160,20 @@ public class SatUI extends JPanel {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Select");
         JButton button = new JButton("SELECT");
-        JTextField textField = new JTextField(20);
+        selectText = new JTextField(20);
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(selectText);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                String orbitType = selectText.getText();
+
+                resultsTable = db.selectSatellite(orbitType);
+                resultsPane.setViewportView(resultsTable);
             }
         });
         return panel;
@@ -175,21 +182,25 @@ public class SatUI extends JPanel {
     private JPanel UpdatePanel() {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Update");
-        JTextField textField = new JTextField(20);
-        panel.add(textField);
+        updateText = new JTextField(10);
+        updateText2 = new JTextField(10);
         JButton button = new JButton("UPDATE");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(updateText);
+        panel.add(updateText2);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                String purpose = updateText.getText();
+                String name = insertText2.getText();
+                resultsTable = db.updateConstellation(purpose, name);
 
-
+                resultsPane.setViewportView(resultsTable);
+            }
         });
         return panel;
     }
@@ -203,86 +214,90 @@ public class SatUI extends JPanel {
         return panel;
     }
 
-    protected static JPanel InsertPanel(String text) {
+    protected JPanel InsertPanel(String text) {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel(text);
-        JTextField textField = new JTextField(20);
+        insertText = new JTextField(10);
+        insertText2  = new JTextField(10);
+        insertText3 = new JTextField(10);
         JButton button = new JButton("INSERT");
         filler.setHorizontalAlignment(JLabel.CENTER);
         // panel.setLayout(new GridLayout(1, 0));
         panel.add(filler);
-        panel.add(textField);
+        panel.add(insertText);
+        panel.add(insertText2);
+        panel.add(insertText3);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform insert
+                // perform insert
             System.out.print("insert launchSystem");
-            String ls = textField.getText();
+            String launchSys = insertText.getText();
             System.out.print("insert satellite id");
-            String sd = parseInt(textField.getText());
+            int satId = Integer.parseInt(insertText2.getText());
             System.out.print("insert Agency ID");
-            String ad = parseInt(textField.getText());
+            String agency = "agency 1";
             System.out.print("insert launch date");
-            String ld = textField.getText();
+            String ld = insertText2.getText();
 
-            database.insertLaunchRequest(ls, sd,ad, ld);
+            resultsTable = db.insertLaunchRequest(launchSys, satId , agency, ld);
 
-            PreparedStatement ps;
-            DefaultTableModel model = new DefaultTableModel(0,6);
-            model.addRow(columnNames);
+            resultsPane.setViewportView(resultsTable);
 
-            try{
-              ps = con.prepareStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
-              ResultSet rs;
-              rs = ps.executeQuery();
-              while(rs.next()) {
-                System.out.println ("Next result");
-                String id = rs.getString(1);
-                String is_approved = rs.getString(2);
-                String launch_system = rs.getString(3);
-                String sat_id = rs.getString(4);
-                String agency_id = rs.getString(5);
-                String scheduled_date = rs.getString(6);
-                model.addRow(new Object[]{rd, is_approved, launch_system, sat_id, agency_id, scheduled_date});
-              }
-              ps.close();
-            }
-            catch(SQLException ex)
-                    {
-                        System.out.println("Message: "+ex.getMessage());
-                    }
-                    resultsTable.setModel(model);
-
-            }
+            // Commented out bc it was causing compile errors
+//            PreparedStatement ps;
+//            DefaultTableModel model = new DefaultTableModel(0,6);
+//            model.addRow(columnNames);
+//
+//            try{
+//              ps = con.prepareStatement("Select ID, Is_Approved, Launch System, Satellite ID, Agency Id, Scheduled Date");
+//              ResultSet rs;
+//              rs = ps.executeQuery();
+//              while(rs.next()) {
+//                System.out.println ("Next result");
+//                String id = rs.getString(1);
+//                String is_approved = rs.getString(2);
+//                String launch_system = rs.getString(3);
+//                String sat_id = rs.getString(4);
+//                String agency_id = rs.getString(5);
+//                String scheduled_date = rs.getString(6);
+//                model.addRow(new Object[]{rd, is_approved, launch_system, sat_id, agency_id, scheduled_date});
+//              }
+//              ps.close();
+//            }
+//            catch(SQLException ex)
+//                    {
+//                        System.out.println("Message: "+ex.getMessage());
+//                    }
+//                    resultsTable.setModel(model);
+//
+           }
 
         });
         return panel;
     }
 
-    protected static JPanel DeletePanel() {
+    protected JPanel DeletePanel() {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Delete");
-        JTextField textField = new JTextField(20);
-        panel.add(textField);
+        deleteText = new JTextField(20);
         JButton button = new JButton("DELETE");
         filler.setHorizontalAlignment(JLabel.CENTER);
-        // panel.setLayout(new GridLayout(1, 0));
+
         panel.add(filler);
-        panel.add(textField);
+        panel.add(deleteText);
         panel.add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // try to perform delete
+                int id = Integer.parseInt(deleteText.getText());
 
+                resultsTable = db.deleteSatellite(id);
             }
         });
         return panel;
     }
-
-
-
 }

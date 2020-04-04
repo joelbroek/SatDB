@@ -29,20 +29,20 @@ public class SatDB{
         }
     }
 
-    private static void createAndShowGUI() {
+    private void createAndShowGUI() {
         JFrame f = new JFrame("A JFrame");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setSize(250, 250);
         f.setLocation(300,200);
-        SatUI satUI = new SatUI();
+        SatUI satUI = new SatUI(this);
         f.setContentPane(satUI);
         satUI.setOpaque(true);
         f.pack();
-        f.setVisible(true);
+        f.setVisible(false);
     }
 
     public void displayError(String errorMsg) {
-        satUI.displayError(errorMsg);
+       // satUI.displayError(errorMsg);
     }
 
     // THE FOLLOWING FUNCTIONS are called by SatUI, allow use of Database functionality
