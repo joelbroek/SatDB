@@ -23,11 +23,11 @@ public class DatabaseAccess {
             }
             Class.forName("oracle.jdbc.driver.OracleDriver");
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            System.out.println("attempting to get connection");
+            System.out.println("Connecting to database...");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu", "ora_jbroek", "a50121862");
-            System.out.println("connection established");
+//            System.out.println("connection established");
             conn.setAutoCommit(false);
-            System.out.println("Connected to database");
+            System.out.println("Connection successful.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             satDB.displayError(e.getMessage());
@@ -38,6 +38,7 @@ public class DatabaseAccess {
         try {
             executeScript("SatDB_delete_database.sql");
             executeScript("SatDB_create_database.sql");
+            System.out.println("Database configuration complete.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Error occurred at initialise");
@@ -54,7 +55,6 @@ public class DatabaseAccess {
             }
             conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu", username, password);
             conn.setAutoCommit(false);
-//            System.out.println("Connected to database\n");
             return true;
         } catch (SQLException e) {
             satDB.displayError(e.getMessage());
@@ -94,7 +94,7 @@ public class DatabaseAccess {
     // executes a .sql script file. Assumes statements are semicolon-separated
     private void executeScript(String filePath) throws Exception {
         StringBuffer buff = new StringBuffer();
-        System.out.println("running script: " + filePath);
+//        System.out.println("running script: " + filePath);
 
         try {
             FileReader reader = new FileReader(filePath);
@@ -120,10 +120,10 @@ public class DatabaseAccess {
     public boolean performUpdate(String sqlString) {
         Statement stmt = null;
         try {
-            System.out.println("UPDATE: " + sqlString);
+//            System.out.println("UPDATE: " + sqlString);
             System.out.println(conn.isClosed());
             stmt = conn.createStatement();
-            System.out.println("created statement");
+//            System.out.println("created statement");
             stmt.executeUpdate(sqlString);
             return true;
         } catch (SQLException e) {
@@ -147,7 +147,7 @@ public class DatabaseAccess {
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sqlString);
-            System.out.println("performed query: " + sqlString);
+//            System.out.println("performed query: " + sqlString);
             return new JTable(formatResultSet(rs));
         } catch(SQLException e) {
             satDB.displayError(e.getMessage());
@@ -177,14 +177,14 @@ public class DatabaseAccess {
         try {
             ResultSetMetaData metaData = rs.getMetaData();
             int numCols = metaData.getColumnCount();
-            System.out.println("nCol: " + numCols);
+//            System.out.println("nCol: " + numCols);
             Vector<String> colNames = new Vector<>();
             Vector<Vector<Object>> tableData = new Vector<Vector<Object>>();
             for (int i = 1; i <= numCols; i++) {
-                System.out.println("colName: " + metaData.getColumnName(i));
+//                System.out.println("colName: " + metaData.getColumnName(i));
                 colNames.add(metaData.getColumnName(i));
             }
-            System.out.println(colNames.toString());
+//            System.out.println(colNames.toString());
             while (rs.next()) {
                 Vector<Object> v = new Vector<>();
                 for (int i = 1; i <= numCols; i++) {
@@ -221,9 +221,9 @@ public class DatabaseAccess {
 
     // Deletes satellite with given ID, then retrieves all Satellites
     public JTable deleteSatellite(int satelliteID) {
-        System.out.println("UPDATE: DELETE FROM satellite(id, name, orbit_id, orbit_type, constellation) WHERE id = " + satelliteID);
+//        System.out.println("UPDATE: DELETE FROM satellite(id, name, orbit_id, orbit_type, constellation) WHERE id = " + satelliteID);
         if (performUpdate("DELETE FROM satellite WHERE id = " + satelliteID)) {
-            System.out.println("successfully deleted");
+//            System.out.println("successfully deleted");
             return performQuery("SELECT id FROM satellite");
         } else {
             satDB.displayError("Failed to delete satellite");
