@@ -424,4 +424,4 @@ insert into user_tracks_constellation(username, constellation_name, is_favourite
 values('spaceguy', 'Constellation3', 1);
 
 insert into user_tracks_constellation(username, constellation_name, is_favourite)
-values('spaceguy', 'Constellation4');
+values('spaceguy', 'Constellation4', 0);

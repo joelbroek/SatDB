@@ -60,26 +60,6 @@ public class SatDB{
 
     // THE FOLLOWING FUNCTIONS are called by SatUI, allow use of Database functionality
 
-    // Attempts to login into database with given username/password.
-    // Returns TRUE if successful, FALSE otherwise
-    public boolean login(String username, String password) {
-        if (dba.login(username, password)){
-            initialiseDatabase();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    // Terminates database connection.
-    public void disconnectAndResetDatabase() {
-        try {
-            dba.disconnectAndResetDatabase();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     public JTable insertLaunchRequest(String launchSystem, int satID, String agencyID, String date) {
         return dba.insertLaunchRequest(launchSystem, satID, agencyID, date);

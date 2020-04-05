@@ -12,11 +12,11 @@ public class DatabaseAccess {
     private Connection conn = null;
     private int launchRequestNumber;
 
+
     public DatabaseAccess(SatDB caller) {
         launchRequestNumber = 20;
         satDB = caller;
 
-        // TODO - THIS IS TEMPORARY UNTIL LOGIN IS IMPLEMENTED
         try {
             satDB.displayMesssage("Connecting to database...");
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -30,6 +30,7 @@ public class DatabaseAccess {
         }
     }
 
+
     public void initialise() throws Exception {
         try {
             executeScript("SatDB_delete_database.sql");
@@ -39,36 +40,8 @@ public class DatabaseAccess {
             satDB.displayError("Error occurred at initialise: " + e.getMessage());
             throw e;
         }
-//        disconnect();
     }
 
-
-    public boolean login(String username, String password) {
-        try {
-            if (conn != null) {
-                conn.close();
-            }
-            satDB.displayMesssage("Connecting to database...");
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu", username, password);
-            conn.setAutoCommit(false);
-            satDB.displayMesssage("Connection successful.");
-            return true;
-        } catch (Exception e) {
-            satDB.displayError("Login error: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public void disconnectAndResetDatabase() {
-        try {
-            reset();
-            disconnect();
-        } catch (Exception e) {
-            satDB.displayError(e.getMessage());
-        }
-    }
 
     private void reset() {
         try {
@@ -88,6 +61,7 @@ public class DatabaseAccess {
             satDB.displayError("Exception occurred at disconnect: " + e.getMessage());
         }
     }
+
 
     // executes a .sql script file. Assumes statements are semicolon-separated
     private void executeScript(String filePath) throws Exception {
@@ -110,6 +84,7 @@ public class DatabaseAccess {
             throw e;
         }
     }
+
 
     // Performs SQL 'UPDATE' statements
     private boolean performUpdate(String sqlString) {
@@ -134,6 +109,7 @@ public class DatabaseAccess {
         }
     }
 
+
     // Performs SQL queries
     private JTable performQuery(String sqlString) {
         Statement stmt = null;
@@ -157,6 +133,7 @@ public class DatabaseAccess {
         }
     }
 
+
     private void rollback() {
         try {
             conn.rollback();
@@ -164,6 +141,7 @@ public class DatabaseAccess {
             satDB.displayError(e.getMessage());
         }
     }
+
 
     // Constructs DefaultTableModel from ResultSet
     private DefaultTableModel formatResultSet(ResultSet rs) {
