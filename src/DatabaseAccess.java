@@ -114,6 +114,7 @@ public class DatabaseAccess {
     // Performs SQL 'UPDATE' statements
     private boolean performUpdate(String sqlString) {
         Statement stmt = null;
+        satDB.displayMesssage("UPDATE: \n" + sqlString);
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(sqlString);
@@ -136,6 +137,7 @@ public class DatabaseAccess {
     // Performs SQL queries
     private JTable performQuery(String sqlString) {
         Statement stmt = null;
+        satDB.displayMesssage("QUERY: \n" + sqlString);
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sqlString);

@@ -15,6 +15,8 @@ public class SatUI extends JPanel {
     private  JTextField selectText;
     private  JTextField deleteText;
     private  JTextField projectText;
+    private JTextArea ta;
+    private JScrollPane textPane;
 
     Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
 
@@ -38,7 +40,10 @@ public class SatUI extends JPanel {
         JPanel division = DivisionPanel();
         resultsTable = new JTable(5,5);
         resultsPane = new JScrollPane(resultsTable);
-
+        ta = new JTextArea(10, 40);
+        ta.setLineWrap(true);
+        textPane = new JScrollPane(ta);
+        frame.add(textPane, BorderLayout.EAST);
         frame.add(insert);
         frame.add(delete);
         frame.add(update);
@@ -54,6 +59,16 @@ public class SatUI extends JPanel {
         frame.setVisible(true);
     }
 
+    public void displayMessage(String msg) {
+        ta.append(msg + "\n");
+    }
+
+
+    public void displayError(String errorMsg) {
+        ta.append("ERROR OCCURRED: App may require restart\n");
+        ta.append("Error Message::    " + errorMsg + "\n");
+
+    }
     private JPanel DivisionPanel() {
         JPanel panel = new JPanel();
         JLabel filler = new JLabel("Division");

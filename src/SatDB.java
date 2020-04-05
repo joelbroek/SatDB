@@ -38,21 +38,24 @@ public class SatDB{
         satUI.setOpaque(true);
         f.pack();
         f.setVisible(false);
+        displayMesssage("Welcome to SatDB!");
     }
 
     public void displayError(String errorMsg) {
-//        if (satUI != null) {
-//             satUI.displayError(errorMsg);
-//        }
-        System.out.println("ERROR OCCURRED: App may require restart to ensure correct functionality");
-        System.out.println("Error Message::    " + errorMsg);
+        if (satUI != null) {
+             satUI.displayError(errorMsg);
+        } else {
+            System.out.println("ERROR OCCURRED: App may require restart");
+            System.out.println("Error Message::    " + errorMsg);
+        }
     }
 
     public void displayMesssage(String msg) {
-//        if(satUI != null) {
-//                    satUI.displayMessage(msg);
-//        }
-        System.out.println(msg);
+        if(satUI != null) {
+                    satUI.displayMessage(msg);
+        } else {
+            System.out.println(msg);
+        }
     }
 
     // THE FOLLOWING FUNCTIONS are called by SatUI, allow use of Database functionality
