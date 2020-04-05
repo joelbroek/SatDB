@@ -250,9 +250,11 @@ public class DatabaseAccess {
     }
 
     public JTable divisionQuery() {
-        return performQuery("SELECT a.name " +
-                "FROM space_agency a " +
-                "WHERE " +
-                "NOT EXISTS ( (SELECT a1.id FROM space_agency a1) MINUS (SELECT a2.id FROM space_agency a2, launch_request lr2 WHERE a1.id = lr2.agency AND lr1.is_approved = 0))");
+        return performQuery("SELECT DISTINCT utc.username " +
+                "FROM user_tracks_constellation utc " +
+                "WHERE NOT EXISTS " +
+                "(SELECT c.name FROM constellation c " +
+                "WHERE NOT EXISTS " +
+                "(SELECT utc2.username FROM user_tracks_constellation utc2 WHERE utc2.constellation_name = c.name and utc.username = utc2.username))");
     }
 }
