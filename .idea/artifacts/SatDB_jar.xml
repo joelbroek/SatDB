@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SatDB:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SatDB_jar</output-path>
+    <root id="archive" name="SatDB.jar">
+      <element id="module-output" name="SatDB" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/ojdbc8.jar" />
+    </root>
+  </artifact>
+</component>
