@@ -12,13 +12,11 @@ public class SatUI extends JPanel {
     private JTextField insertText3;
     private JTextField updateText;
     private JTextField updateText2;
-    private  JTextField selectText;
+    private  JComboBox selectText;
     private  JTextField deleteText;
-    private  JTextField projectText;
+    private  JComboBox projectText;
     private JTextArea ta;
     private JScrollPane textPane;
-
-    Object[] columnNames = {"LaunchID", "Is Approved", "Launch System", "Satellite ID", "Agency ID", "Scheduled Date"};
 
     // Create and show GUI
     public SatUI(SatDB db) {
@@ -27,9 +25,9 @@ public class SatUI extends JPanel {
         // login.showFrame();
         JFrame frame = new JFrame("main ui");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
+        frame.setSize(1020, 600);
 
-        JPanel insert = InsertPanel("Insert");
+        JPanel insert = InsertPanel();
         JPanel delete = DeletePanel();
         JPanel update = UpdatePanel();
         JPanel select = SelectPanel();
@@ -71,8 +69,9 @@ public class SatUI extends JPanel {
     }
     private JPanel DivisionPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Division");
-        JButton button = new JButton("DIVISION");
+        JLabel filler = new JLabel("Find the best space agencies!");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
+        JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
         panel.add(filler);
         panel.add(button);
@@ -90,8 +89,9 @@ public class SatUI extends JPanel {
 
     private JPanel NestedPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Nested Aggregation");
-        JButton button = new JButton("NESTED");
+        JLabel filler = new JLabel("Find Average Agency Launches");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
+        JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
 
         panel.add(filler);
@@ -109,8 +109,9 @@ public class SatUI extends JPanel {
 
     private JPanel AggPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Aggregation");
-        JButton button = new JButton("AGGREGATION");
+        JLabel filler = new JLabel("Find Orbit with Maximum Eccentricity");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
+        JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
 
         panel.add(filler);
@@ -128,8 +129,9 @@ public class SatUI extends JPanel {
 
     private JPanel JoinPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Join");
-        JButton button = new JButton("JOIN");
+        JLabel filler = new JLabel("Find Satellite Purposes");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
+        JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
         panel.add(filler);
         panel.add(button);
@@ -146,9 +148,11 @@ public class SatUI extends JPanel {
 
     private JPanel ProjectPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Project");
-        JButton button = new JButton("PROJECTION");
-        projectText = new JTextField(20);
+        JLabel filler = new JLabel("Get Orbit Information");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
+        JButton button = new JButton("GET");
+        String[] options = new String[] {"Type", "Longitude", "Eccentricity", "Axis"};
+        projectText = new JComboBox<>(options);
         filler.setHorizontalAlignment(JLabel.CENTER);
 
         panel.add(filler);
@@ -158,7 +162,7 @@ public class SatUI extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                String field = projectText.getText();
+                String field = (String) projectText.getSelectedItem();;
                 resultsTable = db.projectFromOrbit(field);
                 resultsPane.setViewportView(resultsTable);
             }
@@ -168,9 +172,11 @@ public class SatUI extends JPanel {
 
     private JPanel SelectPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Select");
+        JLabel filler = new JLabel("Select Satellite Orbit");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
         JButton button = new JButton("SELECT");
-        selectText = new JTextField(20);
+        String[] options = new String[] {"High", "Middle", "Low"};
+        selectText = new JComboBox<>(options);
         filler.setHorizontalAlignment(JLabel.CENTER);
 
         panel.add(filler);
@@ -180,7 +186,7 @@ public class SatUI extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                String orbitType = selectText.getText();
+                String orbitType = (String) selectText.getSelectedItem();
 
                 resultsTable = db.selectSatellite(orbitType);
                 resultsPane.setViewportView(resultsTable);
@@ -191,14 +197,19 @@ public class SatUI extends JPanel {
 
     private JPanel UpdatePanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Update");
+        JLabel filler = new JLabel("Update Constellation Purpose");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
         updateText = new JTextField(10);
         updateText2 = new JTextField(10);
+        JLabel label1 = new JLabel("Purpose:");
+        JLabel label2 = new JLabel("Name:");
         JButton button = new JButton("UPDATE");
         filler.setHorizontalAlignment(JLabel.CENTER);
 
         panel.add(filler);
+        panel.add(label1);
         panel.add(updateText);
+        panel.add(label2);
         panel.add(updateText2);
         panel.add(button);
 
@@ -216,17 +227,24 @@ public class SatUI extends JPanel {
 
 
     // INSERT LAUNCH_REQUEST
-    protected JPanel InsertPanel(String text) {
+    protected JPanel InsertPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel(text);
+        JLabel filler = new JLabel("Make Launch Request");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
+        JLabel label1 = new JLabel("Launch System:");
+        JLabel label2 = new JLabel("Satellite ID:");
+        JLabel label3 = new JLabel("Date of Launch:");
         insertText = new JTextField(10);
         insertText2  = new JTextField(10);
         insertText3 = new JTextField(10);
-        JButton button = new JButton("INSERT");
+        JButton button = new JButton("REQUEST");
         filler.setHorizontalAlignment(JLabel.CENTER);
         panel.add(filler);
+        panel.add(label1);
         panel.add(insertText);
+        panel.add(label2);
         panel.add(insertText2);
+        panel.add(label3);
         panel.add(insertText3);
         panel.add(button);
 
@@ -252,7 +270,8 @@ public class SatUI extends JPanel {
     // DELETE SATELLITE
     protected JPanel DeletePanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Delete");
+        JLabel filler = new JLabel("Delete Satellite (Id)");
+        filler.setFont(new Font("Ariel", Font.BOLD, 14));
         deleteText = new JTextField(20);
         JButton button = new JButton("DELETE");
         filler.setHorizontalAlignment(JLabel.CENTER);
