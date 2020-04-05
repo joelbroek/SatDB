@@ -69,7 +69,7 @@ public class SatUI extends JPanel {
     }
     private JPanel DivisionPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Find the best space agencies!");
+        JLabel filler = new JLabel("Find people who follow all constellations");
         filler.setFont(new Font("Ariel", Font.BOLD, 14));
         JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
@@ -89,7 +89,7 @@ public class SatUI extends JPanel {
 
     private JPanel NestedPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Find Average Agency Launches");
+        JLabel filler = new JLabel("Find average total approved launches per agencykk");
         filler.setFont(new Font("Ariel", Font.BOLD, 14));
         JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
@@ -109,7 +109,7 @@ public class SatUI extends JPanel {
 
     private JPanel AggPanel() {
         JPanel panel = new JPanel();
-        JLabel filler = new JLabel("Find Orbit with Maximum Eccentricity");
+        JLabel filler = new JLabel("Find Maximum Orbital Eccentricity");
         filler.setFont(new Font("Ariel", Font.BOLD, 14));
         JButton button = new JButton("FIND");
         filler.setHorizontalAlignment(JLabel.CENTER);
@@ -175,7 +175,7 @@ public class SatUI extends JPanel {
         JLabel filler = new JLabel("Select Satellite Orbit");
         filler.setFont(new Font("Ariel", Font.BOLD, 14));
         JButton button = new JButton("SELECT");
-        String[] options = new String[] {"High", "Middle", "Low"};
+        String[] options = new String[] {"high", "medium", "low"};
         selectText = new JComboBox<>(options);
         filler.setHorizontalAlignment(JLabel.CENTER);
 
