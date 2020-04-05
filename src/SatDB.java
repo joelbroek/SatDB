@@ -9,8 +9,7 @@ public class SatDB{
         sdb.start();
     }
 
-//    @Override
-    public void start() {
+    private void start() {
         try {
             dba = new DatabaseAccess(this);
             initialiseDatabase();
@@ -18,7 +17,6 @@ public class SatDB{
         } catch (Exception e) {
             System.out.println("Error occurred on start");
             System.out.println(e.getMessage());
-//            exit();
         }
     }
 
@@ -46,7 +44,8 @@ public class SatDB{
 //        if (satUI != null) {
 //             satUI.displayError(errorMsg);
 //        }
-        System.out.println("Error Occurred:    " + errorMsg);
+        System.out.println("ERROR OCCURRED: App may require restart to ensure correct functionality");
+        System.out.println("Error Message::    " + errorMsg);
     }
 
     public void displayMesssage(String msg) {
