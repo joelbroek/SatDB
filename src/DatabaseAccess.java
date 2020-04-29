@@ -21,7 +21,7 @@ public class DatabaseAccess {
             satDB.displayMesssage("Connecting to database...");
             Class.forName("oracle.jdbc.driver.OracleDriver");
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu", "ora_jbroek", "a50121862");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu", "username", "password");
             conn.setAutoCommit(false);
             satDB.displayMesssage("Connection successful.");
         } catch (Exception e) {
