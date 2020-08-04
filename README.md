@@ -3,6 +3,8 @@
 
 A relational database which models satellites, orbital launches, and the relevant organizations and infrastructure. Built using Java, Java Database Connectivity, and Oracle Database.
 
+For a full description, see [the project description pdf](https://github.com/joelbroek/SatDB/blob/master/project_description.pdf).
+
 **Please note:**
 
 Currently, app must be run on UBC CS department servers (i.e. remote.students.cs.ubc.ca), with tunneling to dbhost.students.cs.ubc.ca.
